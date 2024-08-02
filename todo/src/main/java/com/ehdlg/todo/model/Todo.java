@@ -1,6 +1,6 @@
 package com.ehdlg.todo.model;
 
-import io.micrometer.common.lang.NonNull;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,10 +13,10 @@ public class Todo {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @NonNull
+  @Column(unique = true, nullable = false)
   private String title;
 
-  @NonNull
+  @Column(nullable = false)
   private boolean isCompleted;
 
   protected Todo() {
@@ -33,6 +33,10 @@ public class Todo {
 
   public String getTitle() {
     return title;
+  }
+
+  public Boolean getIsCompleted() {
+    return isCompleted;
   }
 
   public void setId(Long id) {
