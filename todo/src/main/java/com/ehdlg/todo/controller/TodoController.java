@@ -6,8 +6,9 @@ import com.ehdlg.todo.model.Todo;
 import com.ehdlg.todo.repository.TodoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,26 +42,23 @@ public class TodoController {
   }
 
   @PostMapping("")
-  public ResponseEntity<Todo> create(@RequestBody Todo todo) {
+  public ResponseEntity<Todo> create(@Valid @RequestBody Todo todo) {
     try {
       Todo newTodo = todoRepository.save(todo);
 
       return ResponseEntity.status(201).body(newTodo);
-    } catch (Exception e) {
-      throw new EntityNotFoundException("There is already a task with that title");
+    } catch (DataIntegrityViolationException e) {
+      throw new DataIntegrityViolationException("There is already a task with that title");
     }
 
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<String> delete(@PathVariable Long id) {
-    try {
-      todoRepository.deleteById(id);
+  public ResponseEntity<?> delete(@PathVariable Long id) {
+    todoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Task %d not found", id)));
+    todoRepository.deleteById(id);
 
-      return new ResponseEntity<String>("Succesfully deleted the task", HttpStatus.OK);
-    } catch (Exception e) {
-      throw new EntityNotFoundException("Task with ID: " + id + " not found");
-    }
+    return ResponseEntity.ok().build();
   }
 
   @PutMapping("{id}")
