@@ -20,7 +20,9 @@ import { TodoItemComponent } from './todo-item.component';
         } }@else {
         <li>There are no todos</li>
         } }
-        <li class="flex justify-between w-full p-2">
+        <li
+          class="flex md:flex-row flex-col gap-4 items-center md:justify-between w-full p-2"
+        >
           <div>x items left</div>
           <div class="flex gap-4">
             <p>All</p>

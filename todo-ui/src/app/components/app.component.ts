@@ -10,7 +10,7 @@ import { TodoType } from '../../types';
   standalone: true,
   imports: [RouterOutlet, TodoComponent],
   template: `
-    <main class="max-w-[800px] mx-auto mt-20">
+    <main class="max-w-[800px] mx-auto mt-20 p-4">
       <h1 class="text-4xl m-4">TODO</h1>
       <app-todo />
     </main>
