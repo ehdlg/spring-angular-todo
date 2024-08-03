@@ -62,17 +62,21 @@ public class TodoController {
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<Todo> update(@PathVariable Long id, @RequestBody Todo updatedFields) {
-    return todoRepository.findById(id)
-        .map(todo -> {
-          todo.setCompleted(updatedFields.getIsCompleted());
-          todo.setTitle(updatedFields.getTitle());
+  public ResponseEntity<Todo> update(@PathVariable Long id, @Valid @RequestBody Todo updatedFields) {
+    try {
+      return todoRepository.findById(id)
+          .map(todo -> {
+            todo.setCompleted(updatedFields.getIsCompleted());
+            todo.setTitle(updatedFields.getTitle());
 
-          Todo updatedTodo = todoRepository.save(todo);
+            Todo updatedTodo = todoRepository.save(todo);
 
-          return ResponseEntity.ok(updatedTodo);
+            return ResponseEntity.ok(updatedTodo);
 
-        }).orElseThrow(() -> new EntityNotFoundException(String.format("Task %d not found", id)));
+          }).orElseThrow(() -> new EntityNotFoundException(String.format("Task %d not found", id)));
+    } catch (DataIntegrityViolationException e) {
+      throw new DataIntegrityViolationException("There is already a task with that title");
+    }
 
   }
 
