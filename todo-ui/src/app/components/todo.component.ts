@@ -18,7 +18,9 @@ import { TodoItemComponent } from './todo-item.component';
         todos; track todo.id) {
         <app-todo-item [todo]="todo" />
         } }@else {
-        <li>There are no todos</li>
+        <li class="text-center text-xl p-2 font-bold border-b border-slate-100">
+          There are no todos
+        </li>
         } }
         <li
           class="flex md:flex-row flex-col gap-4 items-center md:justify-between w-full p-2"
@@ -39,10 +41,10 @@ import { TodoItemComponent } from './todo-item.component';
   `,
 })
 export class TodoComponent implements OnInit {
-  public todos$!: Observable<TodoType[]>;
   constructor(private service: TodoService) {}
+  public todos$: Observable<TodoType[]> = this.service.todos$;
 
   ngOnInit(): void {
-    this.todos$ = this.service.getAll();
+    this.service.loadTodos();
   }
 }
