@@ -38,4 +38,14 @@ export class TodoService {
       })
       .pipe(tap(() => this.loadTodos()));
   }
+
+  update(updatedTodo: TodoType) {
+    const { id, ...data } = updatedTodo;
+
+    return this.http.put<TodoType>(`${environment.apiUrl}/${id}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 }
