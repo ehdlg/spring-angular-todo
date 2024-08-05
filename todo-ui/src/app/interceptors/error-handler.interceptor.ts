@@ -1,19 +1,26 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 import { ErrorReponse } from '../../types';
+import { inject } from '@angular/core';
+import { ErrorHandlerService } from '../services/error-handler.service';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
+  const errorHandlerService = inject(ErrorHandlerService);
+
+  if (req.method != 'GET') errorHandlerService.clearErrors();
+
   return next(req).pipe(
     catchError((error: ErrorReponse) => {
-      let errorMessage = 'An error occured';
+      let errors: string[] = [];
 
       if (error.status === 400) {
-        errorMessage = (error.error.errors as string[]).join('|');
+        errors = error.error.errors as string[];
       } else {
-        errorMessage = error.error.error as string;
+        errors.push(error.error.error as string);
       }
 
-      return throwError(() => new Error(errorMessage));
+      errorHandlerService.setErrors(errors);
+      return EMPTY;
     })
   );
 };
