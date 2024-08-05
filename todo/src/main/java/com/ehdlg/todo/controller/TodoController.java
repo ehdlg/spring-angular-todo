@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ehdlg.todo.model.Todo;
 import com.ehdlg.todo.repository.TodoRepository;
+import com.ehdlg.todo.constants.Constants.GetAllFilter;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -29,8 +31,24 @@ public class TodoController {
   }
 
   @GetMapping("")
-  public Iterable<Todo> getAll() {
-    return this.todoRepository.findAll();
+  public Iterable<Todo> getAll(@RequestParam(required = false) GetAllFilter filter) {
+
+    if (filter == null)
+      return this.todoRepository.findAll();
+
+    switch (filter) {
+      case completed:
+        return this.todoRepository.findByIsCompletedTrue();
+      case incompleted:
+        return this.todoRepository.findByIsCompletedFalse();
+      default:
+        return this.todoRepository.findAll();
+    }
+  }
+
+  @GetMapping("path")
+  public String getMethodName(@RequestParam String param) {
+    return new String();
   }
 
   @GetMapping("{id}")
