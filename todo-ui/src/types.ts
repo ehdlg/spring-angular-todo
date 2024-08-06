@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { TODO_FILTERS } from './constants';
 
 export type TodoType = {
   id: number;
@@ -12,3 +13,5 @@ export interface ErrorReponse extends HttpErrorResponse {
     errors?: string[];
   };
 }
+
+export type TodoFilterType = (typeof TODO_FILTERS)[number];
