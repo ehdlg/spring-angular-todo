@@ -11,7 +11,7 @@ import { DEFAULT_TODO_FILTER } from '../../constants';
 })
 export class TodoService {
   private todosSubject = new BehaviorSubject<TodoType[]>([]);
-  public filterSubject = new BehaviorSubject<TodoFilterType>(
+  private filterSubject = new BehaviorSubject<TodoFilterType>(
     DEFAULT_TODO_FILTER
   );
 
@@ -67,6 +67,10 @@ export class TodoService {
 
   delete(id: number) {
     return this.http.delete<void>(`${environment.apiUrl}/${id}`);
+  }
+
+  getCurrentFilter() {
+    return this.filterSubject.getValue();
   }
 
   updateFilter(newFilter: TodoFilterType) {
