@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TodoType } from '../../types';
+import { TodoFilterType, TodoType } from '../../types';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, catchError, EMPTY, of, tap } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
+import { DEFAULT_TODO_FILTER } from '../../constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
   private todosSubject = new BehaviorSubject<TodoType[]>([]);
+  public filterSubject = new BehaviorSubject<TodoFilterType>(
+    DEFAULT_TODO_FILTER
+  );
 
   public todos$ = this.todosSubject.asObservable().pipe(
     catchError((error: Error) => {
@@ -24,9 +28,13 @@ export class TodoService {
   ) {}
 
   loadTodos() {
-    this.http.get<TodoType[]>(environment.apiUrl).subscribe((todos) => {
-      this.todosSubject.next(todos);
-    });
+    this.http
+      .get<TodoType[]>(
+        `${environment.apiUrl}?filter=${this.filterSubject.getValue()}`
+      )
+      .subscribe((todos) => {
+        this.todosSubject.next(todos);
+      });
   }
 
   create(data: Partial<TodoType>) {
@@ -47,5 +55,10 @@ export class TodoService {
         'Content-Type': 'application/json',
       },
     });
+  }
+
+  updateFilter(newFilter: TodoFilterType) {
+    this.filterSubject.next(newFilter);
+    this.loadTodos();
   }
 }
