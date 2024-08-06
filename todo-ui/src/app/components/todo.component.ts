@@ -5,7 +5,6 @@ import { AsyncPipe } from '@angular/common';
 import { TodoService } from '../services/todo.service';
 import { TodoItemComponent } from './todo-item.component';
 import { TODO_FILTERS } from '../../constants';
-import { iterator } from 'rxjs/internal/symbol/iterator';
 
 @Component({
   selector: 'app-todo',
@@ -13,7 +12,7 @@ import { iterator } from 'rxjs/internal/symbol/iterator';
   imports: [AsyncPipe, TodoItemComponent],
   template: `
     <div
-      class="max-w-[800px] dark:bg-slate-800 rounded bg-slate-50 border border-slate-100 dark:border-slate-700 mx-auto shadow-lg"
+      class="max-w-[800px] dark:bg-slate-800 rounded bg-slate-50 border border-slate-100 dark:border-slate-700 mx-auto shadow-lg transition ease-in duration-200"
     >
       <ul
         class="w-full flex flex-col gap-2 m-0 text-slate-700 dark:text-slate-300"
@@ -65,11 +64,10 @@ export class TodoComponent implements OnInit {
   }
 
   getFilterClass(filter: TodoFilterType) {
-    let baseClass =
-      'capitalize text-slate-700 font-bold  transition ease-in duration-200';
+    let baseClass = 'capitalize  font-bold  transition ease-in duration-200';
     const currentFilter = this.service.getCurrentFilter() === filter;
 
-    const notCurrentFilterClass = `${baseClass} hover:text-purple-300`;
+    const notCurrentFilterClass = `${baseClass} text-slate-700 hover:text-purple-300`;
     const currentFilterClass = `${baseClass} text-purple-500`;
 
     if (!currentFilter) return notCurrentFilterClass;
