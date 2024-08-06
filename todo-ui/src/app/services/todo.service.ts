@@ -44,7 +44,10 @@ export class TodoService {
           'Content-Type': 'application/json',
         },
       })
-      .pipe(tap(() => this.loadTodos()));
+      .pipe(
+        tap(() => this.loadTodos()),
+        take(1)
+      );
   }
 
   update(updatedTodo: TodoType) {
@@ -56,7 +59,10 @@ export class TodoService {
           'Content-Type': 'application/json',
         },
       })
-      .pipe(tap(() => this.loadTodos()));
+      .pipe(
+        tap(() => this.loadTodos()),
+        take(1)
+      );
   }
 
   delete(id: number) {

@@ -22,10 +22,7 @@ export class AddTodoComponent {
   public newTodo: string = '';
   constructor(private service: TodoService) {}
 
-  //TODO handle data
   public addTodo() {
-    this.service.create({ title: this.newTodo }).subscribe((data) => {
-      console.log(data);
-    });
+    this.service.create({ title: this.newTodo }).subscribe();
   }
 }
