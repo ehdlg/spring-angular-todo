@@ -8,7 +8,7 @@ import { TodoService } from '../services/todo.service';
   imports: [],
   template: `
     <li
-      class="border-b border-slate-200 p-6 text-slate-800 flex gap-6 items-center"
+      class="border-b border-slate-200 p-6 text-slate-800 dark:text-slate-200 dark:border-slate-700 flex gap-6 items-center"
     >
       <input
         (click)="updateStatus(todo)"

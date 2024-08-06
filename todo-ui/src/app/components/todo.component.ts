@@ -5,6 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { TodoService } from '../services/todo.service';
 import { TodoItemComponent } from './todo-item.component';
 import { TODO_FILTERS } from '../../constants';
+import { iterator } from 'rxjs/internal/symbol/iterator';
 
 @Component({
   selector: 'app-todo',
@@ -12,26 +13,24 @@ import { TODO_FILTERS } from '../../constants';
   imports: [AsyncPipe, TodoItemComponent],
   template: `
     <div
-      class="max-w-[800px] rounded bg-slate-50 border border-slate-100 mx-auto"
+      class="max-w-[800px] dark:bg-slate-800 rounded bg-slate-50 border border-slate-100 dark:border-slate-700 mx-auto shadow-lg"
     >
-      <ul class="w-full flex flex-col gap-2 m-0 text-slate-700">
+      <ul
+        class="w-full flex flex-col gap-2 m-0 text-slate-700 dark:text-slate-300"
+      >
         @if (todos$ | async; as todos) { @if(todos.length > 0){ @for (todo of
         todos; track todo.id) {
         <app-todo-item [todo]="todo" />
-        } }@else {
-        <li class="text-center text-xl p-4 font-bold border-b border-slate-100">
-          There are no todos
-        </li>
-        }
+        } }
         <li
-          class="flex md:flex-row flex-col gap-4 items-center md:justify-between w-full p-2"
+          class="flex md:grid flex-col gap-4 items-center md:grid-cols-3 w-full p-4"
         >
-          <span>{{ getItemsLeft(todos) }} </span>
-          <div class="flex gap-4">
+          <span class="">{{ getItemsLeft(todos) }} </span>
+          <div class="flex gap-4 justify-center text-center ">
             @for(filter of filters; track filter){
             <button
+              [class]="getFilterClass(filter)"
               type="button"
-              class="px-4 py-2 rounded outline-none bg-slate-200 shadow-sm capitalize"
               (click)="updateFilter(filter)"
             >
               {{ filter }}
@@ -39,7 +38,7 @@ import { TODO_FILTERS } from '../../constants';
             }
           </div>
 
-          <button (click)="clearCompleted()" type="button">
+          <button (click)="clearCompleted()" type="button" class="text-end">
             Clear completed
           </button>
         </li>
@@ -65,9 +64,22 @@ export class TodoComponent implements OnInit {
     this.service.clearCompleted();
   }
 
-  getItemsLeft(todos: TodoType[]) {
-    const itemsLeft = todos.filter((todo) => !todo.isCompleted).length;
+  getFilterClass(filter: TodoFilterType) {
+    let baseClass =
+      'capitalize text-slate-700 font-bold  transition ease-in duration-200';
+    const currentFilter = this.service.getCurrentFilter() === filter;
 
-    return `${itemsLeft} ${itemsLeft === 1 ? 'item' : 'items'} left`;
+    const notCurrentFilterClass = `${baseClass} hover:text-purple-300`;
+    const currentFilterClass = `${baseClass} text-purple-500`;
+
+    if (!currentFilter) return notCurrentFilterClass;
+
+    return currentFilterClass;
+  }
+
+  getItemsLeft(todos: TodoType[]) {
+    let count = 1;
+
+    return count;
   }
 }

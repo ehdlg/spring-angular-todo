@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
         [(ngModel)]="newTodo"
         type="text"
         id="word"
-        class="w-full bg-slate-50 p-4 rounded text-xl "
+        class="w-full bg-slate-50 dark:bg-slate-800 dark:text-slate-200 p-4 rounded text-xl outline-none focus:shadow-md transition ease-in"
         [ngModelOptions]="{ standalone: true }"
         placeholder="Create a new todo..."
       />

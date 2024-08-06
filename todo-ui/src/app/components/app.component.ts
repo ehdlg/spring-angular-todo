@@ -17,7 +17,11 @@ import { ErrorComponent } from './error.component';
   ],
   template: `
     <main class="max-w-[800px] mx-auto mt-20 p-4 flex flex-col gap-6">
-      <h1 class="text-4xl m-4">TODO</h1>
+      <h1
+        class="text-5xl m-4 tracking-widest bg-gradient-to-tr from-purple-400  to-purple-700 inline-block text-transparent bg-clip-text w-fit"
+      >
+        TODO
+      </h1>
       <app-add-todo />
       <app-error />
       <app-todo />
