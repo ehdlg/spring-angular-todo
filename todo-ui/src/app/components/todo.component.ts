@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TodoType } from '../../types';
+import { TodoFilterType, TodoType } from '../../types';
 import { AsyncPipe } from '@angular/common';
 import { TodoService } from '../services/todo.service';
 import { TodoItemComponent } from './todo-item.component';
+import { TODO_FILTERS } from '../../constants';
 
 @Component({
   selector: 'app-todo',
@@ -27,9 +28,15 @@ import { TodoItemComponent } from './todo-item.component';
         >
           <div>x items left</div>
           <div class="flex gap-4">
-            <p>All</p>
-            <p>Active</p>
-            <p>Completed</p>
+            @for(filter of filters; track filter){
+            <button
+              type="button"
+              class="px-4 py-2 rounded outline-none bg-slate-200 shadow-sm"
+              (click)="updateFilter(filter)"
+            >
+              {{ filter }}
+            </button>
+            }
           </div>
 
           <div>
@@ -43,8 +50,13 @@ import { TodoItemComponent } from './todo-item.component';
 export class TodoComponent implements OnInit {
   constructor(private service: TodoService) {}
   public todos$: Observable<TodoType[]> = this.service.todos$;
+  readonly filters = TODO_FILTERS;
 
   ngOnInit(): void {
     this.service.loadTodos();
+  }
+
+  updateFilter(newFilter: TodoFilterType) {
+    this.service.updateFilter(newFilter);
   }
 }
