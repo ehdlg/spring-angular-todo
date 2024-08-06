@@ -27,7 +27,5 @@ export class TodoItemComponent {
     const updatedTodo: TodoType = { ...todo, isCompleted: !todo.isCompleted };
 
     this.service.update(updatedTodo).subscribe();
-
-    this.service.loadTodos();
   }
 }

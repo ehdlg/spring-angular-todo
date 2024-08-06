@@ -50,11 +50,13 @@ export class TodoService {
   update(updatedTodo: TodoType) {
     const { id, ...data } = updatedTodo;
 
-    return this.http.put<TodoType>(`${environment.apiUrl}/${id}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return this.http
+      .put<TodoType>(`${environment.apiUrl}/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .pipe(tap(() => this.loadTodos()));
   }
 
   updateFilter(newFilter: TodoFilterType) {
