@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TodoFilterType, TodoType } from '../../types';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, catchError, EMPTY, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, forkJoin, take, tap } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
 import { DEFAULT_TODO_FILTER } from '../../constants';
 
@@ -66,5 +66,19 @@ export class TodoService {
   updateFilter(newFilter: TodoFilterType) {
     this.filterSubject.next(newFilter);
     this.loadTodos();
+  }
+
+  clearCompleted() {
+    const clear = (todos: TodoType[]) => {
+      if (todos.length === 0) return;
+
+      const requests = todos.map((todo) => this.delete(todo.id));
+
+      return forkJoin(requests)
+        .pipe(tap(() => this.loadTodos()))
+        .subscribe();
+    };
+
+    this.getTodos('completed').pipe(take(1)).subscribe(clear);
   }
 }
