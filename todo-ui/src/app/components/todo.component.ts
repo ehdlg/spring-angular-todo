@@ -22,11 +22,11 @@ import { TODO_FILTERS } from '../../constants';
         <li class="text-center text-xl p-4 font-bold border-b border-slate-100">
           There are no todos
         </li>
-        } }
+        }
         <li
           class="flex md:flex-row flex-col gap-4 items-center md:justify-between w-full p-2"
         >
-          <div>x items left</div>
+          <span>{{ getItemsLeft(todos) }} </span>
           <div class="flex gap-4">
             @for(filter of filters; track filter){
             <button
@@ -43,6 +43,7 @@ import { TODO_FILTERS } from '../../constants';
             Clear completed
           </button>
         </li>
+        }
       </ul>
     </div>
   `,
@@ -62,5 +63,11 @@ export class TodoComponent implements OnInit {
 
   clearCompleted() {
     this.service.clearCompleted();
+  }
+
+  getItemsLeft(todos: TodoType[]) {
+    const itemsLeft = todos.filter((todo) => !todo.isCompleted).length;
+
+    return `${itemsLeft} ${itemsLeft === 1 ? 'item' : 'items'} left`;
   }
 }
