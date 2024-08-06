@@ -25,5 +25,6 @@ export class AddTodoComponent {
 
   public addTodo() {
     this.service.create({ title: this.newTodo }).subscribe();
+    this.newTodo = '';
   }
 }
