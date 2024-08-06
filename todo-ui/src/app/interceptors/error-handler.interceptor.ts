@@ -13,10 +13,17 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: ErrorReponse) => {
       let errors: string[] = [];
 
-      if (error.status === 400) {
-        errors = error.error.errors as string[];
-      } else {
-        errors.push(error.error.error as string);
+      switch (error.status) {
+        case 400:
+          errors = error.error.errors as string[];
+          break;
+
+        case 500:
+          errors.push('Could not connect to the database');
+          break;
+
+        default:
+          errors.push(error.error.error as string);
       }
 
       errorHandlerService.setErrors(errors);
