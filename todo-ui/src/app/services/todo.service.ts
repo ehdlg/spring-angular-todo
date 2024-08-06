@@ -27,14 +27,14 @@ export class TodoService {
     private errorService: ErrorHandlerService
   ) {}
 
+  getTodos(filter: TodoFilterType = 'all') {
+    return this.http.get<TodoType[]>(`${environment.apiUrl}?filter=${filter}`);
+  }
+
   loadTodos() {
-    this.http
-      .get<TodoType[]>(
-        `${environment.apiUrl}?filter=${this.filterSubject.getValue()}`
-      )
-      .subscribe((todos) => {
-        this.todosSubject.next(todos);
-      });
+    this.getTodos(this.filterSubject.getValue()).subscribe((todos) => {
+      this.todosSubject.next(todos);
+    });
   }
 
   create(data: Partial<TodoType>) {
