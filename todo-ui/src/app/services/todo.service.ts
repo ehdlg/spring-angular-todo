@@ -59,6 +59,10 @@ export class TodoService {
       .pipe(tap(() => this.loadTodos()));
   }
 
+  delete(id: number) {
+    return this.http.delete<void>(`${environment.apiUrl}/${id}`);
+  }
+
   updateFilter(newFilter: TodoFilterType) {
     this.filterSubject.next(newFilter);
     this.loadTodos();
