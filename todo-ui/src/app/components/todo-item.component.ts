@@ -7,7 +7,9 @@ import { TodoService } from '../services/todo.service';
   standalone: true,
   imports: [],
   template: `
-    <li class="border-b border-slate-200 p-4 flex gap-4">
+    <li
+      class="border-b border-slate-200 p-6 text-slate-800 flex gap-6 items-center"
+    >
       <input
         (click)="updateStatus(todo)"
         type="checkbox"
@@ -15,7 +17,7 @@ import { TodoService } from '../services/todo.service';
         class="w-5 h-5 cursor-pointer appearance-none border border-gray-300  rounded-md mr-2 checked:bg-no-repeat checked:bg-center checked:border-indigo-500 checked:bg-indigo-100"
         [checked]="todo.isCompleted"
       />
-      <label [htmlFor]="todo.id">{{ todo.title }}</label>
+      <label class="text-xl" [htmlFor]="todo.id">{{ todo.title }}</label>
     </li>
   `,
 })

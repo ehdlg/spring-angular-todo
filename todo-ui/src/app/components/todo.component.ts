@@ -14,12 +14,12 @@ import { TODO_FILTERS } from '../../constants';
     <div
       class="max-w-[800px] rounded bg-slate-50 border border-slate-100 mx-auto"
     >
-      <ul class="w-full flex flex-col gap-2 m-0 ">
+      <ul class="w-full flex flex-col gap-2 m-0 text-slate-700">
         @if (todos$ | async; as todos) { @if(todos.length > 0){ @for (todo of
         todos; track todo.id) {
         <app-todo-item [todo]="todo" />
         } }@else {
-        <li class="text-center text-xl p-2 font-bold border-b border-slate-100">
+        <li class="text-center text-xl p-4 font-bold border-b border-slate-100">
           There are no todos
         </li>
         } }
@@ -31,7 +31,7 @@ import { TODO_FILTERS } from '../../constants';
             @for(filter of filters; track filter){
             <button
               type="button"
-              class="px-4 py-2 rounded outline-none bg-slate-200 shadow-sm"
+              class="px-4 py-2 rounded outline-none bg-slate-200 shadow-sm capitalize"
               (click)="updateFilter(filter)"
             >
               {{ filter }}
