@@ -4,6 +4,6 @@ public class Constants {
   public enum GetAllFilter {
     all,
     completed,
-    incompleted
+    active
   }
 }

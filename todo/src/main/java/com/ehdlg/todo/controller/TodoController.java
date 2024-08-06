@@ -39,7 +39,7 @@ public class TodoController {
     switch (filter) {
       case completed:
         return this.todoRepository.findByIsCompletedTrue();
-      case incompleted:
+      case active:
         return this.todoRepository.findByIsCompletedFalse();
       default:
         return this.todoRepository.findAll();
