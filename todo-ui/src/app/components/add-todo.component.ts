@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
         id="word"
         class="w-full bg-slate-50 p-4 rounded text-xl "
         [ngModelOptions]="{ standalone: true }"
+        placeholder="Create a new todo..."
       />
     </form>
   `,
