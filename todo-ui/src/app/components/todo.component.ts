@@ -39,9 +39,9 @@ import { TODO_FILTERS } from '../../constants';
             }
           </div>
 
-          <div>
-            <p>Clear completed</p>
-          </div>
+          <button (click)="clearCompleted()" type="button">
+            Clear completed
+          </button>
         </li>
       </ul>
     </div>
@@ -58,5 +58,9 @@ export class TodoComponent implements OnInit {
 
   updateFilter(newFilter: TodoFilterType) {
     this.service.updateFilter(newFilter);
+  }
+
+  clearCompleted() {
+    this.service.clearCompleted();
   }
 }
