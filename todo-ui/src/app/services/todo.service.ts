@@ -14,6 +14,7 @@ export class TodoService {
   private filterSubject = new BehaviorSubject<TodoFilterType>(
     DEFAULT_TODO_FILTER
   );
+  private itemsLeftSubject = new BehaviorSubject<number>(0);
 
   public todos$ = this.todosSubject.asObservable().pipe(
     catchError((error: Error) => {
@@ -31,10 +32,24 @@ export class TodoService {
     return this.http.get<TodoType[]>(`${environment.apiUrl}?filter=${filter}`);
   }
 
+  getItemsLeft() {
+    return this.itemsLeftSubject.getValue();
+  }
+
+  updateItemsLeft() {
+    this.getTodos('active')
+      .pipe(take(1))
+      .subscribe((left) => {
+        this.itemsLeftSubject.next(left.length);
+      });
+  }
+
   loadTodos() {
-    this.getTodos(this.filterSubject.getValue()).subscribe((todos) => {
-      this.todosSubject.next(todos);
-    });
+    this.getTodos(this.filterSubject.getValue())
+      .pipe(tap(() => this.updateItemsLeft()))
+      .subscribe((todos) => {
+        this.todosSubject.next(todos);
+      });
   }
 
   create(data: Partial<TodoType>) {
