@@ -10,12 +10,12 @@ import { ErrorHandlerService } from '../services/error-handler.service';
   template: `
     @if (errors$ | async; as errors) { @if(errors.length > 0){
     <div
-      class="w-full relative bg-red-100 font-semibold flex flex-col gap-4 p-4 rounded"
+      class="w-full relative bg-red-200 font-semibold flex flex-col gap-4 p-4 rounded"
     >
       <button
         type="button"
         (click)="clearErrors()"
-        class="absolute top-1 right-5"
+        class="absolute top-2 right-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
