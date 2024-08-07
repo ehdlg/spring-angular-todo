@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { FormsModule } from '@angular/forms';
+import { TodoType } from '../../types';
 
 @Component({
   selector: 'app-add-todo',
@@ -24,7 +25,8 @@ export class AddTodoComponent {
   constructor(private service: TodoService) {}
 
   public addTodo() {
-    this.service.create({ title: this.newTodo }).subscribe();
+    const newTodo: Partial<TodoType> = { title: this.newTodo.trim() };
+    this.service.create(newTodo).subscribe();
     this.newTodo = '';
   }
 }
