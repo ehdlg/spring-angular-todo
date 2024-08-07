@@ -24,7 +24,7 @@ import { TODO_FILTERS } from '../../constants';
         <li
           class="flex md:grid flex-col gap-4 items-center md:grid-cols-3 w-full p-4"
         >
-          <span class="">{{ getItemsLeft(todos) }} </span>
+          <span class="">{{ getItemsLeft() }} </span>
           <div class="flex gap-4 justify-center text-center ">
             @for(filter of filters; track filter){
             <button
@@ -75,9 +75,9 @@ export class TodoComponent implements OnInit {
     return currentFilterClass;
   }
 
-  getItemsLeft(todos: TodoType[]) {
-    let count = 1;
+  getItemsLeft(): string {
+    const itemsLeft = this.service.getItemsLeft();
 
-    return count;
+    return `${itemsLeft} ${itemsLeft > 0 ? 'items' : 'item'} left`;
   }
 }
