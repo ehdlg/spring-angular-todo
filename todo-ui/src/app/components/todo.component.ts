@@ -12,7 +12,7 @@ import { TODO_FILTERS } from '../../constants';
   imports: [AsyncPipe, TodoItemComponent],
   template: `
     <div
-      class="max-w-[800px] dark:bg-slate-800 rounded bg-slate-50 border border-slate-100 dark:border-slate-700 mx-auto shadow-lg transition ease-in duration-200"
+      class="max-w-[800px] dark:bg-slate-800 rounded bg-slate-50 border border-slate-200 dark:border-slate-700 mx-auto shadow-lg transition ease-in duration-200"
     >
       <ul
         class="w-full flex flex-col gap-2 m-0 text-slate-700 dark:text-slate-300"
