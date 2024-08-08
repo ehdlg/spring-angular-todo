@@ -10,7 +10,7 @@ import { ErrorHandlerService } from '../services/error-handler.service';
   template: `
     @if (errors$ | async; as errors) { @if(errors.length > 0){
     <div
-      class="w-full relative bg-red-200 font-semibold flex flex-col gap-4 p-4 rounded"
+      class="w-full relative bg-red-200 border-l-4 border-red-500 flex flex-col gap-4 p-4 rounded"
     >
       <button
         type="button"
@@ -32,10 +32,10 @@ import { ErrorHandlerService } from '../services/error-handler.service';
           />
         </svg>
       </button>
-      <h3 class="text-red-500 text-xl font-bold">Errors</h3>
+      <h3 class="text-red-500 text-2xl font-bold">Errors</h3>
       <ul>
         @for (error of errors; track error) {
-        <li class="text-red-400 text-lg">{{ error }}</li>
+        <li class="text-red-400 text-xl">{{ error }}</li>
         }
       </ul>
     </div>
